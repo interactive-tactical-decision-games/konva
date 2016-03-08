@@ -428,7 +428,7 @@
                 return null;
             }
             this._setPointerPosition(evt);
-            var shape;
+            var dd = Konva.DD, shape;
 
             if (!Konva.isDragging()) {
                 shape = this.getIntersection(this.getPointerPosition());
@@ -462,6 +462,10 @@
                 // content event
                 this._fire(CONTENT_MOUSEMOVE, {evt: evt});
             }
+            if(dd) {
+                dd._drag(evt);
+            }
+
 
             // always call preventDefault for desktop events because some browsers
             // try to drag and drop the canvas element
@@ -631,6 +635,7 @@
                 this._fire(CONTENT_TOUCHMOVE, {evt: evt});
             }
             if(dd) {
+                dd._drag(evt);
                 if (Konva.isDragging()) {
                     evt.preventDefault();
                 }
