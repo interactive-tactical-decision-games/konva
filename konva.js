@@ -3,7 +3,7 @@
  * Konva JavaScript Framework v0.15.0
  * http://konvajs.github.io/
  * Licensed under the MIT or GPL Version 2 licenses.
- * Date: Sat Jun 18 2016
+ * Date: Fri Jun 24 2016
  *
  * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
  * Modified work Copyright (C) 2014 - 2015 by Anton Lavrenov (Konva)
@@ -9075,7 +9075,7 @@
                 return null;
             }
             this._setPointerPosition(evt);
-            var shape;
+            var dd = Konva.DD, shape;
 
             if (!Konva.isDragging()) {
                 shape = this.getIntersection(this.getPointerPosition());
@@ -9109,6 +9109,10 @@
                 // content event
                 this._fire(CONTENT_MOUSEMOVE, {evt: evt});
             }
+            if(dd) {
+                dd._drag(evt);
+            }
+
 
             // always call preventDefault for desktop events because some browsers
             // try to drag and drop the canvas element
@@ -9278,6 +9282,7 @@
                 this._fire(CONTENT_TOUCHMOVE, {evt: evt});
             }
             if(dd) {
+                dd._drag(evt);
                 if (Konva.isDragging()) {
                     evt.preventDefault();
                 }
@@ -11398,8 +11403,8 @@
     html.addEventListener('mouseup', Konva.DD._endDragBefore, true);
     html.addEventListener('touchend', Konva.DD._endDragBefore, true);
 
-    html.addEventListener('mousemove', Konva.DD._drag);
-    html.addEventListener('touchmove', Konva.DD._drag);
+    // html.addEventListener('mousemove', Konva.DD._drag);
+    // html.addEventListener('touchmove', Konva.DD._drag);
 
     html.addEventListener('mouseup', Konva.DD._endDragAfter, false);
     html.addEventListener('touchend', Konva.DD._endDragAfter, false);
